@@ -1,0 +1,51 @@
+Crea una ventana con un Listbox que muestre una lista de elementos. Agrega un botón para añadir nuevos elementos a la lista.
+
+import tkinter as tk
+from tkinter import messagebox
+
+# --- Función para agregar elementos ---
+def agregar_a_lista():
+    # 1. Obtenemos el texto que escribió el usuario
+    elemento = entry_texto.get()
+    
+    # 2. Verificamos que no esté vacío
+    if elemento != "":
+        # 3. Insertamos el elemento al FINAL de la lista
+        # tk.END es una constante que indica "la última posición"
+        listbox_elementos.insert(tk.END, elemento)
+        
+        # 4. Borramos el texto del Entry para escribir el siguiente
+        entry_texto.delete(0, tk.END)
+    else:
+        messagebox.showwarning("Cuidado", "No puedes agregar un elemento vacío.")
+
+# --- Configuración de la Ventana ---
+ventana = tk.Tk()
+ventana.title("Mi Lista de Tareas")
+ventana.geometry("300x350")
+
+# --- Creación de Widgets ---
+
+# Etiqueta de instrucción
+label_instruccion = tk.Label(ventana, text="Escribe un elemento:")
+label_instruccion.pack(pady=5)
+
+# Campo de entrada (Entry)
+entry_texto = tk.Entry(ventana, width=30)
+entry_texto.pack(pady=5)
+
+# Botón para agregar
+btn_agregar = tk.Button(ventana, text="Agregar a la lista", command=agregar_a_lista, bg="#d9d9d9")
+btn_agregar.pack(pady=5)
+
+# El Listbox (La lista visual)
+listbox_elementos = tk.Listbox(ventana, width=40, height=10)
+listbox_elementos.pack(padx=10, pady=10)
+
+# --- Agregar unos elementos de ejemplo al iniciar ---
+elementos_iniciales = ["Manzanas", "Peras", "Leche"]
+for item in elementos_iniciales:
+    listbox_elementos.insert(tk.END, item)
+
+# --- Bucle Principal ---
+ventana.mainloop()
