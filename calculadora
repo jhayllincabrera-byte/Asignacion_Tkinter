@@ -1,0 +1,61 @@
+Crea una calculadora sencilla que pueda sumar dos números usando Labels, Entries y Buttons
+
+
+import tkinter as tk
+from tkinter import messagebox
+
+# --- 1. La Función (Lógica) ---
+def realizar_suma():
+    try:
+        # Obtenemos el texto de los Entry (cajas de texto)
+        texto_num1 = entry_num1.get()
+        texto_num2 = entry_num2.get()
+        
+        # Convertimos el texto a números decimales (float)
+        num1 = float(texto_num1)
+        num2 = float(texto_num2)
+        
+        # Hacemos la suma
+        resultado = num1 + num2
+        
+        # Actualizamos el Label de resultado
+        # 'config' sirve para cambiar propiedades de un widget ya creado
+        label_resultado.config(text=f"El resultado es: {resultado}", fg="green")
+        
+    except ValueError:
+        # Si el usuario escribe letras en vez de números, mostramos error
+        label_resultado.config(text="Error: Ingresa solo números", fg="red")
+
+# --- 2. Configuración de la Ventana Principal ---
+ventana = tk.Tk()
+ventana.title("Calculadora de Suma")
+ventana.geometry("300x250") # Tamaño: Ancho x Alto
+
+# --- 3. Creación de los Widgets (Componentes) ---
+
+# -- Primer Número --
+label1 = tk.Label(ventana, text="Ingresa el primer número:")
+label1.pack(pady=5) # pady agrega espacio vertical
+
+entry_num1 = tk.Entry(ventana)
+entry_num1.pack(pady=5)
+
+# -- Segundo Número --
+label2 = tk.Label(ventana, text="Ingresa el segundo número:")
+label2.pack(pady=5)
+
+entry_num2 = tk.Entry(ventana)
+entry_num2.pack(pady=5)
+
+# -- Botón --
+# El parámetro 'command' conecta el clic con la función 'realizar_suma'
+boton_sumar = tk.Button(ventana, text="SUMAR", command=realizar_suma, bg="lightgray")
+boton_sumar.pack(pady=20)
+
+# -- Label para el Resultado --
+label_resultado = tk.Label(ventana, text="El resultado aparecerá aquí", font=("Arial", 10, "bold"))
+label_resultado.pack(pady=10)
+
+# --- 4. Bucle Principal ---
+# Esto mantiene la ventana abierta esperando acciones
+ventana.mainloop()
