@@ -1,2 +1,8 @@
 1. Crea una ventana básica con Tkinter que muestre un mensaje de bienvenida usando un Label.
 
+import tkinter as tk
+
+ventana1=tk.Tk()
+ventana1.title("Hola Mundo")
+ventana1.mainloop()
+
