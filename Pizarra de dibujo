@@ -1,0 +1,65 @@
+Diseña una interfaz con un Canvas donde el usuario pueda dibujar líneas manteniendo presionado el botón del mouse.
+
+import tkinter as tk
+
+class PizarraApp:
+    def __init__(self, ventana):
+        self.ventana = ventana
+        self.ventana.title("Pizarra de Dibujo")
+        
+        # Variables para guardar la última posición del mouse (x, y)
+        self.last_x = None
+        self.last_y = None
+        
+        
+        self.canvas = tk.Canvas(ventana, width=500, height=400, bg="white", cursor="cross")
+        self.canvas.pack(pady=10, padx=10)
+        
+     
+        self.canvas.bind('<Button-1>', self.iniciar_dibujo)
+        # Cuando mueves el mouse manteniendo el clic
+        self.canvas.bind('<B1-Motion>', self.dibujar)
+        # Cuando sueltas el clic (opcional, para resetear)
+        self.canvas.bind('<ButtonRelease-1>', self.detener_dibujo)
+        
+      
+        btn_borrar = tk.Button(ventana, text="Borrar Pizarra", command=self.borrar_todo, bg="#ffcccc")
+        btn_borrar.pack(pady=5)
+        
+        # Etiqueta de instrucciones
+        lbl_info = tk.Label(ventana, text="Mantén presionado el clic izquierdo para dibujar", fg="gray")
+        lbl_info.pack(pady=5)
+
+    def iniciar_dibujo(self, event):
+        # Guardamos la posición inicial donde se hizo clic
+        self.last_x = event.x
+        self.last_y = event.y
+
+    def dibujar(self, event):
+       
+        if self.last_x and self.last_y:
+            x, y = event.x, event.y
+            
+            # create_line conecta el punto anterior con el actual
+            # capstyle=tk.ROUND hace que los bordes sean redondos y suaves
+            self.canvas.create_line(self.last_x, self.last_y, x, y, 
+                                  width=3, fill="black", capstyle=tk.ROUND, smooth=True)
+            
+            # Actualizamos la "última posición" a la actual para el siguiente tramo
+            self.last_x = x
+            self.last_y = y
+
+    def detener_dibujo(self, event):
+        # Reseteamos las coordenadas cuando se suelta el clic
+        self.last_x = None
+        self.last_y = None
+
+    def borrar_todo(self):
+        # "all" es una etiqueta especial para borrar todo el contenido
+        self.canvas.delete("all")
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = PizarraApp(root)
+    root.mainloop()
